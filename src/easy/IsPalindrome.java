@@ -1,6 +1,8 @@
 package easy;
 
 /**
+ * 回文数
+ *
  * @author 吴启欢
  * @version 1.0
  * @date 2018-11-16 8:00
@@ -8,8 +10,8 @@ package easy;
 public class IsPalindrome {
     public boolean isPalindrome(int x) {
 
-        return false;
 
+        return false;
     }
 }
 

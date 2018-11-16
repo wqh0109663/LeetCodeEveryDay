@@ -1,6 +1,7 @@
 package easy;
 
 import java.math.BigDecimal;
+import java.util.Stack;
 
 /**
  * 反转整数
@@ -9,6 +10,8 @@ import java.math.BigDecimal;
  * 通过移动小数点的位置，
  * 获得小数点后面第一个数，
  * 再连接起来
+ * <p>
+ * 官方的做法是直接用类似于压栈的思想，再弹栈
  *
  * @author 吴启欢
  * @version 1.0
@@ -17,8 +20,11 @@ import java.math.BigDecimal;
 public class ReversalNum {
 
     public static void main(String[] args) {
-        int reverse = reverse(1534236469);
-        System.out.println(reverse);
+        UserStackToReversal userStackToReversal = new UserStackToReversal();
+        int reverse1 = userStackToReversal.reverse(-2147483648);
+        System.out.println(reverse1);
+        int reverse2 = new ReversalNum().reverse(-2147483648);
+        System.out.println(reverse2);
 
     }
 
@@ -28,13 +34,14 @@ public class ReversalNum {
      * @param x 要反转的整数
      * @return 反转后的整数
      */
-    private static int reverse(int x) {
+    public int reverse(int x) {
         boolean isNegativeNum = false;
+        long xTemp = x;
         if (x < 0) {
-            x = -x;
+            xTemp = -xTemp;
             isNegativeNum = true;
         }
-        String value = String.valueOf(x);
+        String value = String.valueOf(xTemp);
         StringBuilder sb = new StringBuilder();
         int length = value.length();
         for (int i = 1; i <= length; i++) {
@@ -42,13 +49,12 @@ public class ReversalNum {
             int lastNum = getDecimal(temp);
             sb.append(lastNum);
         }
-        int result  = 0;
+        int result = 0;
         try {
-
             result = Integer.parseInt(sb.toString());
-        }catch (NumberFormatException e){
+        } catch (Exception e) {
             long resultLong = Long.parseLong(sb.toString());
-            if (resultLong > Integer.MAX_VALUE){
+            if (resultLong > Integer.MAX_VALUE) {
                 return 0;
             }
         }
@@ -65,7 +71,7 @@ public class ReversalNum {
      * @param time   移动几位
      * @return 移动n位之后的数
      */
-    private static BigDecimal movePointForward(double strNum, int time) {
+    public BigDecimal movePointForward(double strNum, int time) {
         if (time < 0) {
             throw new IllegalArgumentException("参数不合法" + time);
         }
@@ -80,7 +86,7 @@ public class ReversalNum {
      * @param strNum 字符串
      * @return 如果包含返回真，否则假
      */
-    private static boolean containsPoints(String strNum) {
+    public static boolean containsPoints(String strNum) {
         final String point = ".";
         return strNum.contains(new StringBuilder(point));
     }
@@ -91,7 +97,7 @@ public class ReversalNum {
      * @param doubleNum doubleNum
      * @return 返回小数点之后的第一位数，不包含小树带你返回0
      */
-    private static int getDecimal(BigDecimal doubleNum) {
+    public int getDecimal(BigDecimal doubleNum) {
 
         String strNum = String.valueOf(doubleNum);
         if (containsPoints(strNum)) {
@@ -103,6 +109,64 @@ public class ReversalNum {
         }
 
 
+    }
+
+}
+
+/**
+ * 官方做法
+ */
+class Solution {
+    public int reverse(int x) {
+        int rev = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) return 0;
+            if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) return 0;
+            rev = rev * 10 + pop;
+        }
+        return rev;
+    }
+}
+
+/**
+ * 第二种做法
+ */
+class UserStackToReversal {
+
+    public int reverse(int x) {
+        boolean isNegativeNum = false;
+        long temp = x;
+        if (x < 0) {
+            temp = -temp;
+            isNegativeNum = true;
+        }
+        Stack<String> stack = new Stack<>();
+        String s = String.valueOf(temp);
+        for (int i = 0; i < s.length(); i++) {
+            String substring = s.substring(i, i + 1);
+            stack.push(substring);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+
+            sb.append(stack.pop());
+        }
+        int result = 0;
+        try {
+            result = Integer.parseInt(sb.toString());
+        } catch (NumberFormatException e) {
+            long l = Long.parseLong(sb.toString());
+            if (l > Integer.MAX_VALUE) {
+                return 0;
+            }
+        }
+        if (isNegativeNum) {
+            return -result;
+        }
+        return result;
     }
 
 }
