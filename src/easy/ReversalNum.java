@@ -116,7 +116,7 @@ public class ReversalNum {
 /**
  * 官方做法
  */
-class Solution {
+class ReversalNumSolution {
     public int reverse(int x) {
         int rev = 0;
         while (x != 0) {
