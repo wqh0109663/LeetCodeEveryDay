@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Stack;
 
 /**
- * 反转整数
+ * 7.反转整数
  * 我的思路是：
  * 直接在整数后面加上小数点，
  * 通过移动小数点的位置，
