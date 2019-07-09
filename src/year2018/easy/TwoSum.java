@@ -1,4 +1,4 @@
-package easy;
+package year2018.easy;
 
 /**1. 两数之和
  * @author wqh

@@ -1,4 +1,4 @@
-package easy;
+package year2018.easy;
 
 /**
  * 14. 最长公共前缀

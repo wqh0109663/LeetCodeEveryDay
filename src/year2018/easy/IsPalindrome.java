@@ -1,4 +1,4 @@
-package easy;
+package year2018.easy;
 
 /**
  * 9. 回文数

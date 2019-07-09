@@ -1,4 +1,4 @@
-package easy;
+package year2018.easy;
 
 import java.math.BigDecimal;
 import java.util.Stack;
